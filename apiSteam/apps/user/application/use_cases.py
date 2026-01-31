@@ -7,9 +7,18 @@ class CreateUserUseCase:
             raise ValueError("Username already exists")
         if self.user_repository.exists(email=email):
             raise ValueError("Email already exists")
+        if not username or not email or not password:
+            raise ValueError("Missing required fields")
         
-        user = self.user_repository.create(username=username, email=email, password=password)
+        user = self.user_repository.create(
+            username=username,
+            email=email,
+            password=password,
+            rol="USER",       
+            account="ACTIVE"   
+        )
         return user
+
 
 class ListUserUseCase:
     def __init__(self, user_reporistory):

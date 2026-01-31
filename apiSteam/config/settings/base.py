@@ -13,6 +13,7 @@ LOCAL_APPS = [
 
 
 DJANGO_APPS = [
+    'rest_framework_simplejwt',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -22,8 +23,7 @@ DJANGO_APPS = [
 ]
 
 THIRD_PARTY_APPS = [
-    'rest_framework',
-    'rest_framework_simplejwt',
+    'rest_framework'
 ]
 
 SIMPLE_JWT = {
@@ -32,7 +32,7 @@ SIMPLE_JWT = {
     'AUTH_HEADER_TYPES': ('Bearer',),
 }
 
-GEOIP_PATH = "/opt/geoip"
+GEOIP_PATH = "/opt/geoip" 
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 
@@ -74,7 +74,7 @@ TEMPLATES = [
 
 # URLS
 ROOT_URLCONF = 'apiSteam.config.urls'
-WSGI_APPLICATION = 'apiSteam.wsgi.application'
+WSGI_APPLICATION = 'apiSteam.config.wsgi.application'
 ASGI_APPLICATION = 'apiSteam.config.asgi.application'
 
 

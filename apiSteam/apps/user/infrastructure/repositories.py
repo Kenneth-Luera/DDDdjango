@@ -3,7 +3,7 @@ from django.contrib.auth import get_user_model
 User = get_user_model()
 
 class DjangoUserRepository:
-    def create_user(self, *, username, email, password, rol, account):
+    def create(self, *, username, email, password, rol, account):
         user = User(
             username=username,
             email=email,
@@ -16,3 +16,7 @@ class DjangoUserRepository:
 
     def get_all(self):
         return User.objects.all()
+    
+    def exists(self, **kwargs):
+        return User.objects.filter(**kwargs).exists()
+
