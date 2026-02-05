@@ -1,13 +1,18 @@
 from rest_framework import status, viewsets
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework.permissions import IsAuthenticated, AllowAny
-from rest_framework_simplejwt.authentication import JWTAuthentication
-from apiSteam.apps.user.application.use_cases import CreateUserUseCase
-from apiSteam.apps.user.application.use_cases import ListUserUseCase
-from apiSteam.apps.user.application.use_cases import UpdateUserUseCase
-from apiSteam.apps.user.infrastructure.repositories import DjangoUserRepository
-from apiSteam.apps.user.presentation.serializers import UserSerializer, UpdateUserSerializer
+from rest_framework.permissions import AllowAny
+
+from apiSteam.apps.user.application.use_cases.CreateUserUseCase import CreateUserUseCase
+from apiSteam.apps.user.application.use_cases.ListUserUseCase import ListUserUseCase
+from apiSteam.apps.user.application.use_cases.UpdateUserUseCase import UpdateUserUseCase
+from apiSteam.apps.user.application.use_cases.UpdateUserLocationUseCase import UpdateUserLocationUseCase
+
+
+from apiSteam.apps.user.infrastructure.repositories.DjangoUserRepository import DjangoUserRepository
+from apiSteam.apps.user.presentation.serializers.user_serializer import UserSerializer, UpdateUserSerializer
+
+from apiSteam.apps.user.application.utils.ip import get_client_ip
 
 
 class UserCreateView(APIView):
@@ -18,13 +23,19 @@ class UserCreateView(APIView):
         serializer = UserSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
-        use_case = CreateUserUseCase(DjangoUserRepository())
+        repo = DjangoUserRepository()
+        use_case = CreateUserUseCase(repo)
         user = use_case.execute(**serializer.validated_data)
+
+        ip = get_client_ip(request)
+        geo_use_case = UpdateUserLocationUseCase()
+        geo_use_case.execute(user, ip)
 
         return Response(
             UserSerializer(user).data,
             status=status.HTTP_201_CREATED
         )
+
 
 class UsersViewSet(viewsets.ViewSet):
     permission_classes = [AllowAny]

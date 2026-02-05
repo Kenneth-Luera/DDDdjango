@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from entities import User
+from apiSteam.apps.user.domain.entities.user import User
 
 class UserRepository(ABC):
     @abstractmethod

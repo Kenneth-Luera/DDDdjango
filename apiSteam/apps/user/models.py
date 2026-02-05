@@ -1,1 +1,1 @@
-from apiSteam.apps.user.infrastructure.models import *
+from apiSteam.apps.user.infrastructure.models.user_model import *
