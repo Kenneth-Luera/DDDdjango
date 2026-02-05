@@ -36,7 +36,6 @@ class UserCreateView(APIView):
             status=status.HTTP_201_CREATED
         )
 
-
 class UsersViewSet(viewsets.ViewSet):
     permission_classes = [AllowAny]
     http_method_names = ['get', 'put']

@@ -8,7 +8,8 @@ ALLOWED_HOSTS = []
 
 LOCAL_APPS = [
     'apiSteam.apps.user',
-
+    'apiSteam.apps.library',
+    'apiSteam.apps.games',
 ]
 
 

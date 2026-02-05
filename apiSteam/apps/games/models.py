@@ -1,3 +1,1 @@
-from django.db import models
-
-# Create your models here.
+from apiSteam.apps.games.infrastructure.models.game_model import *
