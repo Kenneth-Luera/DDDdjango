@@ -19,5 +19,8 @@ from django.urls import path,include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path("", include("django_prometheus.urls")),
     path('api/users/', include('apiSteam.apps.user.presentation.urls')),
+    path('api/games/', include('apiSteam.apps.games.presentation.urls')),
+    path('api/libraries/', include('apiSteam.apps.library.presentation.urls')),
 ]

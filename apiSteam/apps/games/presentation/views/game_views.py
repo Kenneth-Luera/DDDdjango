@@ -33,7 +33,6 @@ class GameListCreateView(APIView):
 
 
 class GameDetailView(APIView):
-    permission_classes = [AllowAny]
 
     def get(self, request, game_id):
         repo = DjangoGameRepository()
@@ -41,3 +40,22 @@ class GameDetailView(APIView):
         game = use_case.execute(game_id)
 
         return Response(GameSerializer(game).data)
+
+    def put(self, request, game_id):
+        repo = DjangoGameRepository()
+        use_case = GetGameDetailUseCase(repo)
+        game = use_case.execute(game_id)
+
+        serializer = GameSerializer(game, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+
+        updated_game = repo.update(game, **serializer.validated_data)
+
+        return Response(GameSerializer(updated_game).data, status=status.HTTP_200_OK)
+
+    def delete(self, request, game_id):
+        repo = DjangoGameRepository()
+        game = repo.get_by_id(game_id)
+        game.delete()
+
+        return Response(status=status.HTTP_204_NO_CONTENT)

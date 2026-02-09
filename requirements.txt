@@ -20,3 +20,6 @@ whitenoise==6.9.0
 geoip2==4.8.0
 django-filter
 django-countries
+django-prometheus
+python-logging-loki
+python-json-logger
