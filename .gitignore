@@ -22,7 +22,7 @@ media
 
 # C extensions
 *.so
-
+404.not-found
 # Distribution / packaging
 .Python
 build/

@@ -32,28 +32,38 @@ LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
     "formatters": {
-        "json": {
-            "()": "pythonjsonlogger.jsonlogger.JsonFormatter",
-            "format": "%(asctime)s %(levelname)s %(name)s %(message)s",
+        "verbose": {
+            "format": "[{levelname}] {asctime} {method} {path} {status_code} {message}",
+            "style": "{",
+        },
+        "simple": {
+            "format": "[{levelname}] {asctime} {name} {message}",
+            "style": "{",
         },
     },
     "handlers": {
-        "console": {
+        "console_simple": {
             "class": "logging.StreamHandler",
-            "formatter": "json",
+            "formatter": "simple",
+        },
+        "console_verbose": {
+            "class": "logging.StreamHandler",
+            "formatter": "verbose",
         },
     },
     "loggers": {
         "django": {
-            "handlers": ["console"],
+            "handlers": ["console_simple"],
             "level": "INFO",
         },
-        "api": {
-            "handlers": ["console"],
+        "http_logger": {
+            "handlers": ["console_verbose"],
             "level": "INFO",
         },
     },
 }
+
+
 
 
 
@@ -77,6 +87,8 @@ REST_FRAMEWORK = {
 }
 
 MIDDLEWARE = [
+    "apiSteam.middleware.request_logger.RequestLogMiddleware",
+    "apiSteam.core.middleware.RequestLogMiddleware",
     "django_prometheus.middleware.PrometheusBeforeMiddleware",
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
